@@ -7,8 +7,8 @@ draft = 'draft' # draft: 100, mask: 1000
 
 phase = 90
 
-wg = 1.2
-wt = 0.8
+wg = 2
+wt = 1.6
 eg = 30
 ch = 250
 
@@ -33,7 +33,6 @@ layer = {} # 2 for (0, 0) mask position
 layer['core'] = 2
 layer['edge'] = 2
 layer['slab'] = 2
-layer['sio2'] = 2
 layer['fill'] = 2
 layer['gold'] = 2
 layer['keys'] = 2

@@ -43,11 +43,11 @@ def device(x, y, lchip, wtip, sign):
 
 def fiber(x, y, lchip, sign):
 
-  return device(x, y, lchip, 0.36, sign)
+  return device(x, y, lchip, 0.67, sign)
 
 def pd(x, y, lchip, sign):
 
-  return device(x, y, lchip, 0.36, sign)
+  return device(x, y, lchip, 1.07, sign)
 
 def scuts(x, y):
 

@@ -6,8 +6,6 @@ import ohm
 import pbs
 import psk
 import tip
-import sio
-import seg
 import tap
 import icr
 import y1x2
@@ -30,7 +28,6 @@ def mask_1(fp):
   cfg.layer['core'] = 1
   cfg.layer['edge'] = 1
   cfg.layer['cuts'] = 1
-  cfg.layer['sio2'] = 0
   cfg.layer['recs'] = 1
 
   dev.sline(x, y + cfg.ch * 0.5, cfg.size)
@@ -38,8 +35,6 @@ def mask_1(fp):
   tip.chips(x, y + cfg.ch * 11.5, 0.16, 0.41, 0.05)
   y2x2.chips(x, y + cfg.ch * 19, 50.5, 52.5, 1)
   y1x2.chips(x, y + cfg.ch * 24.5, 16, 18, 1)
-  seg.chips(x, y + cfg.ch * 26.5)
-  sio.chips(x, y + cfg.ch * 32.5, 200, 600, 200)
   tap.chips(x, y + cfg.ch * 35.5)
   dev.sline(x, y + cfg.ch * 39.5, cfg.size)
 
