@@ -1,6 +1,7 @@
 import cfg
 import dxf
 import dev
+import cir
 import euler
 
 lwg = 10
@@ -77,14 +78,26 @@ def bend_90x2():
   print('ANSYS Euler bend with 2 x 90-deg rotation ...')
   dev.saveas('90x2')
 
+def directional_coupler():
+
+  df = cir.r5['0_90_' + cfg.draft]
+
+  x, y = dxf.sline('core', 0, 0, 100)
+
+  dxf.bends('core', 0, 0, df, 90, 1)
+  dxf.bends('core', x, y, df, 270, -1)
+
+  dev.saveas('directional_coupler')
+
 if __name__ == '__main__':
 
-  cfg.work = 'D:/ansys/Euler/'
+  # cfg.work = 'D:/ansys/DC/'
 
   cfg.draft = 'mask'
 
-  bend_45()
+  # bend_45()
   # bend_90()
   # bend_180()
   # bend_90x2()
   # bend_45_taper()
+  directional_coupler()
