@@ -78,7 +78,7 @@ def directional_coupler():
 
 if __name__ == '__main__':
 
-  # cfg.work = 'D:/ansys/DC/'
+  cfg.work = 'D:/ansys/DC/'
 
   cfg.draft = 'mask'
 
@@ -87,6 +87,6 @@ if __name__ == '__main__':
   # angle_180()
   # angle_90x2()
 
-  angle_180()
+  # angle_180()
   
-  # directional_coupler()
+  directional_coupler()
