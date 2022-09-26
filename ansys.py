@@ -65,6 +65,14 @@ def angle_90x2():
   print('ANSYS Euler bend with 2 x 90-deg rotation ...')
   dev.saveas('90x2')
 
+def sbend():
+
+  x, y = dev.sline(0, 0, lwg)
+  x, y = dev.sbend(x, y, cfg.ch * 0.5, 15, 0, 1)
+  x, y = dev.sline(x, y, lwg)
+
+  dev.saveas('sbend_15')
+
 def directional_coupler():
 
   df = cir.r5['0_90_' + cfg.draft]
@@ -78,15 +86,15 @@ def directional_coupler():
 
 if __name__ == '__main__':
 
-  cfg.work = 'D:/ansys/DC/'
+  cfg.work = 'D:/ansys/Euler/'
 
   cfg.draft = 'mask'
 
-  angle_45()
+  # angle_45()
   # angle_90()
   # angle_180()
   # angle_90x2()
 
-  # angle_180()
+  sbend()
   
   # directional_coupler()
