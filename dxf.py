@@ -250,6 +250,8 @@ def org(df, n, height, xp, yp):
 
 def inv(df, n, height, xp, yp):
 
+  xt, yt = xp, yp
+
   if df['angle'] == 45:
     dh = df['dx'] + df['dy']
     dx = dh if height < dh else height

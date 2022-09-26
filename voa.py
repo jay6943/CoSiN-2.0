@@ -22,14 +22,14 @@ def device(x, y):
 
   x2, y1, y2 = y1x2.device(x, y, 1)
 
-  x3, y3 = dev.sbend(x2, y1,  ch, 45, 0, 1)
-  x3, y4 = dev.sbend(x2, y2, -ch, 45, 0, 1)
+  x3, y3 = dev.sbend(x2, y1,  ch, cfg.sarg, 0, 1)
+  x3, y4 = dev.sbend(x2, y2, -ch, cfg.sarg, 0, 1)
 
   x5, y3 = arm(x3, y3,  1)
   x5, y4 = arm(x3, y4, -1)
 
-  x9, y1 = dev.sbend(x5, y3, -ch, 45, 0, 1)
-  x9, y2 = dev.sbend(x5, y4,  ch, 45, 0, 1)
+  x9, y1 = dev.sbend(x5, y3, -ch, cfg.sarg, 0, 1)
+  x9, y2 = dev.sbend(x5, y4,  ch, cfg.sarg, 0, 1)
 
   x10, y1, y2 = y1x2.device(x9, y, -1)
 
@@ -69,6 +69,6 @@ if __name__ == '__main__':
 
   # chip(0, 0, 0)
   
-  chips(0, 0, 500, 1000, 100)
+  chips(0, 0, 500, 700, 100)
 
   dev.saveas('voa')

@@ -12,6 +12,8 @@ yqpsk = 2400
 xsize = cfg.size
 ysize = 8000
 
+sarg = 15
+
 def inbend(x, y, sign):
 
   h = 300
@@ -46,20 +48,20 @@ def chip(x, y, lchip):
   y1 = y + ch
   y2 = y - ch
   
-  ltip = tip.ltip + 1500
+  ltip = tip.ltip
 
   x1, _ = tip.fiber(x, y1, ltip, -1)
   x1, _ = tip.fiber(x, y2, ltip, -1)
   
-  x2, y3 = dev.sbend(x1, y1, ch * 4, 90, 0,  1)
-  x2, y4 = dev.sbend(x1, y2, ch * 4, 90, 0, -1)
+  x2, y3 = dev.sbend(x1, y1, ch * 4, 45, 0,  1)
+  x2, y4 = dev.sbend(x1, y2, ch * 4, 45, 0, -1)
 
   x3, _ = tap.device(x2, y3, ysize * 0.5 + ch * 5, -1)
   x4, _ = voa.device(x3, y3)
   x4, _ = dev.sline(x2, y4, x4 - x2)
 
-  x5, y5 = dev.sbend(x4, y3, ch * 3, 90, 0, -1)
-  x5, y6 = dev.sbend(x4, y4, ch * 3, 90, 0,  1)
+  x5, y5 = dev.sbend(x4, y3, ch * 3, cfg.sarg, 0, -1)
+  x5, y6 = dev.sbend(x4, y4, ch * 3, cfg.sarg, 0,  1)
 
   x6, _ = dev.sline(x5, y5, 500)
   x6, _ = dev.sline(x5, y6, 500)
