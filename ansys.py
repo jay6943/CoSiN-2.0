@@ -82,11 +82,11 @@ if __name__ == '__main__':
 
   cfg.draft = 'mask'
 
-  # angle_45()
+  angle_45()
   # angle_90()
   # angle_180()
   # angle_90x2()
 
   # angle_180()
   
-  directional_coupler()
+  # directional_coupler()
