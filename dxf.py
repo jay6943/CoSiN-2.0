@@ -237,7 +237,8 @@ def org(df, n, height, xp, yp):
   elif df['angle'] == 90: dx = df['dx'] * 2
   else:
     dh = height - df['dy'] * 2
-    dx = df['dx'] * 2 + dh / np.tan(df['angle'] * np.pi / 180)
+    dq = df['angle'] * np.pi / 180
+    dx = df['dx'] * 2 + dh / np.tan(dq)
 
   xt = np.append(xp[:n], dx - xp[n:])
   yt = np.append(yp[:n], dy - yp[n:])
