@@ -92,9 +92,9 @@ if __name__ == '__main__':
 
   # angle_45()
   # angle_90()
-  # angle_180()
+  angle_180()
   # angle_90x2()
 
-  sbend()
+  # sbend()
   
   # directional_coupler()
