@@ -11,6 +11,26 @@ yqpsk = 2400
 xsize = cfg.size
 ysize = 8000
 
+def inner(x, y, yorg, sign):
+
+  ch = cfg.ch * 0.5
+
+  x1, y1 = dev.sbend(x, y, ch * 5, 45, 0, sign * 2)
+  x2, y2 = dev.tline(x1, y1, sign * (yorg + yqpsk) - y1 * 2 + y)
+  x3, y3 = dev.sbend(x2, y2, sign * ch * 4, 45, 90, -2)
+
+  return x3, y3
+
+def outer(x, y, yorg, sign):
+
+  ch = cfg.ch * 0.5
+
+  x1, y1 = dev.sbend(x, y, ch * 4, 45, 0, sign * 2)
+  x2, y2 = dev.tline(x1, y1, sign * (yorg + yqpsk) - y1 * 2 + y)
+  x3, y3 = dev.sbend(x2, y2, sign * ch * 5, 45, 90, -2)
+  
+  return x3, y3
+
 def fiber_pd(x, y, lchip):
 
   x1, _ = tip.fiber(x, y, lchip * 0.5, -1)
@@ -30,39 +50,26 @@ def chip(x, y, lchip):
   x1, _ = tip.fiber(x, y1, ltip, -1)
   x1, _ = tip.fiber(x, y2, ltip, -1)
   
-  x2, y3 = dev.sbend(x1, y1, ch * 4, 45, 0,  1)
-  x2, y4 = dev.sbend(x1, y2, ch * 4, 45, 0, -1)
+  x2, y3 = dev.sbend(x1, y1, ch * 3, 45, 0,  1)
+  x2, y4 = dev.sbend(x1, y2, ch * 3, 45, 0, -1)
 
   x3, _ = tap.device(x2, y3, ysize * 0.5 + ch * 5, -1)
   x4, _ = voa.device(x3, y3)
   x4, _ = dev.sline(x2, y4, x4 - x2)
 
-  x5, y5 = dev.sbend(x4, y3, ch * 3, cfg.sarg, 0, -1)
-  x5, y6 = dev.sbend(x4, y4, ch * 3, cfg.sarg, 0,  1)
+  x5, y5 = dev.sbend(x4, y3, ch * 2, 45, 0, -1)
+  x5, y6 = dev.sbend(x4, y4, ch * 2, 45, 0,  1)
 
-  x6, _ = dev.sline(x5, y5, 500)
-  x6, _ = dev.sline(x5, y6, 500)
+  x6, _ = dev.sline(x5, y5, 100)
+  x6, _ = dev.sline(x5, y6, 100)
 
   x7, y61, y62 = pbs.device(x6, y5)
   x7, y63, y64 = pbs.device(x6, y6)
 
-  x9, y71 = dev.sbend(x7, y61, ch * 2, 45, 0,  2)
-  x8, y72 = dev.sbend(x7, y62, ch * 4, 45, 0, -2)
-  x8, y73 = dev.sbend(x7, y63, ch * 4, 45, 0,  2)
-  x9, y74 = dev.sbend(x7, y64, ch * 2, 45, 0, -2)
-
-  h1 = y + yqpsk - ch - y71 - (y71 - y61)
-  h2 = y + yqpsk + ch - y73 - (y73 - y63)
-
-  _, y81 = dev.tline(x9, y71,  h1)
-  _, y82 = dev.tline(x8, y72, -h2)
-  _, y83 = dev.tline(x8, y73,  h2)
-  _, y84 = dev.tline(x9, y74, -h1)
-
-  x10, _ = dev.sbend(x9, y81,  ch * 4, 45, 90, -2)
-  x10, _ = dev.sbend(x8, y82, -ch * 2, 45, 90, -2)
-  x10, _ = dev.sbend(x8, y83,  ch * 2, 45, 90, -2)
-  x10, _ = dev.sbend(x9, y84, -ch * 4, 45, 90, -2)
+  x10, _ = outer(x7, y61, y,  1)
+  x10, _ = inner(x7, y62, y, -1)
+  x10, _ = inner(x7, y63, y,  1)
+  x10, _ = outer(x7, y64, y, -1)
 
   x11, y7 = psk.device(x10, y + yqpsk)
   x11, y8 = psk.device(x10, y - yqpsk)
