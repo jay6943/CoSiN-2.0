@@ -103,10 +103,3 @@ if __name__ == '__main__':
   chip(0, 0, xsize)
 
   dev.saveas('icr')
-
-  import os
-
-  cd = '__pycache__/'
-  files = os.listdir(cd)
-  for f in files: os.remove(cd + f)
-  os.rmdir(cd)

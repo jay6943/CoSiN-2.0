@@ -113,3 +113,4 @@ if __name__ == '__main__':
   mask_4(fp)
 
   dxf.close(fp)
+  dev.removes('__pycache__/')
