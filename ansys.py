@@ -59,28 +59,26 @@ def angle_90x2():
 
   dev.saveas('90x2')
 
-def sbend():
+def sbend(angle):
 
   x, y = dev.sline(0, 0, lwg)
-  x, y = dev.sbend(x, y, cfg.ch * 0.5, 27, 0, 1)
+  x, y = dev.sbend(x, y, cfg.ch * 0.5, angle, 0, 1)
   x, y = dev.sline(x, y, lwg)
 
   dev.saveas('sbend')
 
-def directional_coupler():
+def cir_90():
 
   df = cir.r5['0_90_' + cfg.draft]
 
-  x, y = dxf.sline('core', 0, 0, 100)
-
   dxf.bends('core', 0, 0, df, 90, 1)
-  dxf.bends('core', x, y, df, 270, -1)
-
-  dev.saveas('directional_coupler')
+  dev.saveas('cir-in')
+  dxf.bends('core', 0, 0, df, 270, 1)
+  dev.saveas('cir-out')
 
 if __name__ == '__main__':
 
-  cfg.work = 'D:/ansys/Euler/'
+  # cfg.work = 'D:/ansys/Euler/'
 
   cfg.draft = 'mask'
 
@@ -89,6 +87,6 @@ if __name__ == '__main__':
   # angle_180()
   # angle_90x2()
 
-  sbend()
+  # sbend(27)
   
-  # directional_coupler()
+  cir_90()

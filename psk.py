@@ -26,21 +26,19 @@ def sbend(x, y):
 
 def device(x, y):
 
-  k = wavelength / refractive
-  h = cfg.phase * k / (4 * (np.sqrt(2) - 1)) / 180
-
   l = 50
 
   ch1x2 = cfg.ch - cfg.d1x2
   ch2x2 = cfg.ch * 0.5 - cfg.d2x2
-  ph1x2 = ch1x2 + h
-  ph2x2 = ch2x2 + h
 
   x1, y11, y12 = y1x2.device(x, y + cfg.ch * 0.5, 1)
-  x2, y21, y22 = y1x2.device(x, y - cfg.ch * 0.5, 1)
+  x2, y21, y22 = y2x2.device(x, y - cfg.ch * 0.5)
 
-  x3, y1 = dev.sbend(x1, y11,  ph1x2, 45, 0, 1)
-  x4, y2 = dev.sbend(x1, y12, -ch1x2, 45, 0, 1)
+  dev.sline(x1, y11, x2 - x1)
+  dev.sline(x1, y12, x2 - x1)
+
+  x3, y1 = dev.sbend(x2, y11,  ch1x2, 45, 0, 1)
+  x4, y2 = dev.sbend(x2, y12, -ch1x2, 45, 0, 1)
   x4, y3 = dev.sbend(x2, y21,  ch1x2, 45, 0, 1)
   x4, y4 = dev.sbend(x2, y22, -ch1x2, 45, 0, 1)
 
@@ -53,12 +51,12 @@ def device(x, y):
   dxf.tilts('core', xh, ya, cfg.eg * 2, cfg.wg, -45)
   dxf.tilts('core', xh, yb, cfg.eg * 2, cfg.wg,  45)
 
-  x5, _ = dev.sline(x3, y1, l - h * 2)
+  x5, _ = dev.sline(x3, y1, l)
   x6, _ = dev.sline(x4, y2, l)
   x6, _ = dev.sline(x4, y3, l)
   x6, _ = dev.sline(x4, y4, l)
 
-  x7, _ = dev.sbend(x5, y1, -ph2x2, cfg.sarg, 0, 1)
+  x7, _ = dev.sbend(x5, y1, -ch2x2, cfg.sarg, 0, 1)
   x7, _ = dev.sbend(x6, y2, -ch2x2, cfg.sarg, 0, 1)
   x7, _ = dev.sbend(x6, y3,  ch2x2, cfg.sarg, 0, 1)
   x7, _ = dev.sbend(x6, y4,  ch2x2, cfg.sarg, 0, 1)
@@ -105,7 +103,7 @@ def chips(x, y, start, stop, step):
 
 if __name__ == '__main__':
 
-  chip(0, 0, 0)
+  chip(0, 0, 4000)
   
   # chips(0, 0, 70, 115, 5)
 
