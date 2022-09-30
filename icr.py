@@ -15,8 +15,8 @@ def inner(x, y, yorg, sign):
 
   ch = cfg.ch * 0.5
 
-  x1, y1 = dev.sbend(x, y, ch * 5, 45, 0, sign * 2)
-  x2, y2 = dev.tline(x1, y1, sign * (yorg + yqpsk) - y1 * 2 + y)
+  x1, y1 = dev.sbend(x, y, ch * 6, 45, 0, sign * 2)
+  x2, y2 = dev.tline(x1, y1, sign * (yorg + yqpsk + ch) - y1 * 2 + y)
   x3, y3 = dev.sbend(x2, y2, sign * ch * 4, 45, 90, -2)
 
   return x3, y3
@@ -26,8 +26,8 @@ def outer(x, y, yorg, sign):
   ch = cfg.ch * 0.5
 
   x1, y1 = dev.sbend(x, y, ch * 4, 45, 0, sign * 2)
-  x2, y2 = dev.tline(x1, y1, sign * (yorg + yqpsk) - y1 * 2 + y)
-  x3, y3 = dev.sbend(x2, y2, sign * ch * 5, 45, 90, -2)
+  x2, y2 = dev.tline(x1, y1, sign * (yorg + yqpsk - ch) - y1 * 2 + y)
+  x3, y3 = dev.sbend(x2, y2, sign * ch * 6, 45, 90, -2)
   
   return x3, y3
 
@@ -45,7 +45,7 @@ def chip(x, y, lchip):
   y1 = y + ch
   y2 = y - ch
   
-  ltip = tip.ltip + 100
+  ltip = tip.ltip + 700
 
   x1, _ = tip.fiber(x, y1, ltip, -1)
   x1, _ = tip.fiber(x, y2, ltip, -1)
@@ -55,13 +55,11 @@ def chip(x, y, lchip):
 
   x3, _ = tap.device(x2, y3, ysize * 0.5 + ch * 5, -1)
   x4, _ = voa.device(x3, y3)
+  x4, _ = dev.sline(x4, y3, 100)
   x4, _ = dev.sline(x2, y4, x4 - x2)
 
-  x5, y5 = dev.sbend(x4, y3, ch * 2, 45, 0, -1)
-  x5, y6 = dev.sbend(x4, y4, ch * 2, 45, 0,  1)
-
-  x7, y61, y62 = pbs.device(x5, y5)
-  x7, y63, y64 = pbs.device(x5, y6)
+  x7, y61, y62 = pbs.device(x4, y3)
+  x7, y63, y64 = pbs.device(x4, y4)
 
   x10, _ = outer(x7, y61, y,  1)
   x10, _ = inner(x7, y62, y, -1)
