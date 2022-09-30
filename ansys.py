@@ -8,10 +8,9 @@ lwg = 10
 def angle_45():
   
   x, y = dev.sline(0, 0, lwg)
-  x, y = dev.sbend(x, y, 125, 45, 0, 1)
+  x, y = dev.sbend(x, y, 0, 45, 0, 1)
   x, y = dev.sline(x, y, lwg)
 
-  print('ANSYS Euler s-bend ...')
   dev.saveas('45')
 
 def angle_45_taper():
@@ -22,7 +21,6 @@ def angle_45_taper():
   x, y = dev.taper(x, y, cfg.ltpr, cfg.wg, cfg.wt)
   x, y = dev.srect(x, y, lwg, cfg.wt)
 
-  print('ANSYS Euler s-bend ...')
   dev.saveas('45-taper')
 
 def angle_90():
@@ -31,7 +29,6 @@ def angle_90():
   x, y = dev.bends(x, y, 90, 0, 1)
   x, y = dev.tline(x, y, lwg)
 
-  print('ANSYS Euler bend with 90-deg rotation ...')
   dev.saveas('90')
 
 def angle_180():
@@ -40,7 +37,6 @@ def angle_180():
   x, y = dev.bends(x, y, 180, 0, 1)
   x, y = dev.sline(x, y, -lwg)
 
-  print('ANSYS Euler bend with 180-deg rotation ...')
   dev.saveas('180')
 
 def angle_180_taper():
@@ -51,7 +47,6 @@ def angle_180_taper():
   x, y = dev.taper(x, y, -cfg.ltpr, cfg.wg, cfg.wt)
   x, y = dev.srect(x, y, -lwg, cfg.wt)
 
-  print('ANSYS Euler bend with 180-deg rotation ...')
   dev.saveas('180-taper')
 
 def angle_90x2():
@@ -62,16 +57,15 @@ def angle_90x2():
   x, y = dev.bends(x, y, 90, 90, 1)
   x, y = dev.sline(x, y, -lwg)
 
-  print('ANSYS Euler bend with 2 x 90-deg rotation ...')
   dev.saveas('90x2')
 
 def sbend():
 
   x, y = dev.sline(0, 0, lwg)
-  x, y = dev.sbend(x, y, cfg.ch * 0.5, 15, 0, 1)
+  x, y = dev.sbend(x, y, cfg.ch * 0.5, 27, 0, 1)
   x, y = dev.sline(x, y, lwg)
 
-  dev.saveas('sbend_15')
+  dev.saveas('sbend')
 
 def directional_coupler():
 
@@ -92,9 +86,9 @@ if __name__ == '__main__':
 
   # angle_45()
   # angle_90()
-  angle_180()
+  # angle_180()
   # angle_90x2()
 
-  # sbend()
+  sbend()
   
   # directional_coupler()

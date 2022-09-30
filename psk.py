@@ -39,10 +39,10 @@ def device(x, y):
   x1, y11, y12 = y1x2.device(x, y + cfg.ch * 0.5, 1)
   x2, y21, y22 = y1x2.device(x, y - cfg.ch * 0.5, 1)
 
-  x3, y1 = dev.sbend(x1, y11,  ph1x2, cfg.sarg, 0, 1)
-  x4, y2 = dev.sbend(x1, y12, -ch1x2, cfg.sarg, 0, 1)
-  x4, y3 = dev.sbend(x2, y21,  ch1x2, cfg.sarg, 0, 1)
-  x4, y4 = dev.sbend(x2, y22, -ch1x2, cfg.sarg, 0, 1)
+  x3, y1 = dev.sbend(x1, y11,  ph1x2, 45, 0, 1)
+  x4, y2 = dev.sbend(x1, y12, -ch1x2, 45, 0, 1)
+  x4, y3 = dev.sbend(x2, y21,  ch1x2, 45, 0, 1)
+  x4, y4 = dev.sbend(x2, y22, -ch1x2, 45, 0, 1)
 
   xl = np.sqrt(0.5) * cfg.eg
 
@@ -50,8 +50,8 @@ def device(x, y):
   ya = (y1 + y11) * 0.5 + xl
   yb = (y4 + y22) * 0.5 - xl
 
-  dxf.tilts('core', xh, ya, cfg.eg * 2, cfg.wg, -cfg.sarg)
-  dxf.tilts('core', xh, yb, cfg.eg * 2, cfg.wg,  cfg.sarg)
+  dxf.tilts('core', xh, ya, cfg.eg * 2, cfg.wg, -45)
+  dxf.tilts('core', xh, yb, cfg.eg * 2, cfg.wg,  45)
 
   x5, _ = dev.sline(x3, y1, l - h * 2)
   x6, _ = dev.sline(x4, y2, l)

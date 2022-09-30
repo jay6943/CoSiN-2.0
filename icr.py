@@ -60,11 +60,8 @@ def chip(x, y, lchip):
   x5, y5 = dev.sbend(x4, y3, ch * 2, 45, 0, -1)
   x5, y6 = dev.sbend(x4, y4, ch * 2, 45, 0,  1)
 
-  x6, _ = dev.sline(x5, y5, 100)
-  x6, _ = dev.sline(x5, y6, 100)
-
-  x7, y61, y62 = pbs.device(x6, y5)
-  x7, y63, y64 = pbs.device(x6, y6)
+  x7, y61, y62 = pbs.device(x5, y5)
+  x7, y63, y64 = pbs.device(x5, y6)
 
   x10, _ = outer(x7, y61, y,  1)
   x10, _ = inner(x7, y62, y, -1)
