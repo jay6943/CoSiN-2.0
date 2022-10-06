@@ -6,6 +6,8 @@ import cir
 lwg = 10
 
 def angle_45():
+
+  cfg.work = 'D:/ansys/Euler/'
   
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.sbend(x, y, 0, 45, 0, 1)
@@ -14,6 +16,8 @@ def angle_45():
   dev.saveas('45')
 
 def angle_45_taper():
+
+  cfg.work = 'D:/ansys/Euler/'
   
   x, y = dev.srect(0, 0, lwg, cfg.wt)
   x, y = dev.taper(x, y, cfg.ltpr, cfg.wt, cfg.wg)
@@ -25,6 +29,8 @@ def angle_45_taper():
 
 def angle_90():
 
+  cfg.work = 'D:/ansys/Euler/'
+
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.bends(x, y, 90, 0, 1)
   x, y = dev.tline(x, y, lwg)
@@ -33,6 +39,8 @@ def angle_90():
 
 def angle_180():
 
+  cfg.work = 'D:/ansys/Euler/'
+
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.bends(x, y, 180, 0, 1)
   x, y = dev.sline(x, y, -lwg)
@@ -40,6 +48,8 @@ def angle_180():
   dev.saveas('180')
 
 def angle_180_taper():
+
+  cfg.work = 'D:/ansys/Euler/'
 
   x, y = dev.srect(0, 0, lwg, cfg.wt)
   x, y = dev.taper(x, y, cfg.ltpr, cfg.wt, cfg.wg)
@@ -50,6 +60,8 @@ def angle_180_taper():
   dev.saveas('180-taper')
 
 def angle_90x2():
+
+  cfg.work = 'D:/ansys/Euler/'
   
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.bends(x, y, 90, 0, 1)
@@ -61,24 +73,26 @@ def angle_90x2():
 
 def sbend(angle):
 
+  cfg.work = 'D:/ansys/Euler/'
+
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.sbend(x, y, cfg.ch * 0.5, angle, 0, 1)
   x, y = dev.sline(x, y, lwg)
 
   dev.saveas('sbend')
 
-def cir_90():
+def dc_in_out():
+
+  cfg.work = 'D:/ansys/DC/'
 
   df = cir.r5['0_90_' + cfg.draft]
 
   dxf.bends('core', 0, 0, df, 90, 1)
-  dev.saveas('cir-in')
+  dev.saveas('wg-in')
   dxf.bends('core', 0, 0, df, 270, 1)
-  dev.saveas('cir-out')
+  dev.saveas('wg-out')
 
 if __name__ == '__main__':
-
-  # cfg.work = 'D:/ansys/Euler/'
 
   cfg.draft = 'mask'
 
@@ -89,4 +103,4 @@ if __name__ == '__main__':
 
   # sbend(27)
   
-  cir_90()
+  dc_in_out()
