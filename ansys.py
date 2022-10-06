@@ -89,7 +89,7 @@ def dc_in_out():
 
   dxf.bends('core', 0, 0, df, 90, 1)
   dev.saveas('wg-in')
-  dxf.bends('core', 0, 0, df, 270, 1)
+  dxf.bends('core', 0, 0, df, 270, -1)
   dev.saveas('wg-out')
 
 if __name__ == '__main__':
