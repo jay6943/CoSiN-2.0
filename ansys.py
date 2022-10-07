@@ -88,9 +88,9 @@ def dc_in_out():
   df = cir.r5['0_90_' + cfg.draft]
 
   dxf.bends('core', 0, 0, df, 90, 1)
-  dev.saveas('wg-in')
+  dev.saveas('wg-1w-in')
   dxf.bends('core', 0, 0, df, 270, -1)
-  dev.saveas('wg-out')
+  dev.saveas('wg-1w-out')
 
 if __name__ == '__main__':
 
