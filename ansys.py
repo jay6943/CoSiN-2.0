@@ -95,19 +95,23 @@ def dc_in_out():
 
 def pbs():
 
-  cfg.work = 'D:/ansys/PBS/'
+  r = 20
+  g = 1.5
 
-  c20 = el.r20['20_90_mask']
-  c22 = el.r22['22_90_mask']
+  cfg.work = 'D:/ansys/PBS/'
+  
+  s1 = el.update(r)[str(r) + '_90_mask']
+  s2 = el.update(r + g)[str(r + g) + '_90_mask']
 
   df = cir.r5['0_90_' + cfg.draft]
 
-  dxf.sline('core', 0, 2, -10)
-  x1, y1 = dxf.bends('core', 0, 2, c20, 0, 1)
+
+  dxf.sline('core', 0, g, -10)
+  x1, y1 = dxf.bends('core', 0, g, s1, 0, 1)
   dxf.tline('core', x1, y1, 10)
 
   dxf.bends('core', 0, 0, df, 90, 1)
-  x1, y1 = dxf.bends('core', 0, 0, c22, 0, 1)
+  x1, y1 = dxf.bends('core', 0, 0, s2, 0, 1)
   dxf.tline('core', x1, y1, 10)
 
   dev.saveas('euler')

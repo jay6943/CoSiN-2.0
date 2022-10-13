@@ -115,6 +115,4 @@ def update(r):
 
   return obj
 
-r20 = update(20)
-r22 = update(22)
 r250 = update(250)
