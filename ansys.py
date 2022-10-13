@@ -2,6 +2,7 @@ import cfg
 import dxf
 import dev
 import cir
+import euler as el
 
 lwg = 10
 
@@ -92,6 +93,25 @@ def dc_in_out():
   dxf.bends('core', 0, 0, df, 270, -1)
   dev.saveas('wg-1w-out')
 
+def pbs():
+
+  cfg.work = 'D:/ansys/PBS/'
+
+  c20 = el.r20['20_90_mask']
+  c22 = el.r22['22_90_mask']
+
+  df = cir.r5['0_90_' + cfg.draft]
+
+  dxf.sline('core', 0, 2, -10)
+  x1, y1 = dxf.bends('core', 0, 2, c20, 0, 1)
+  dxf.tline('core', x1, y1, 10)
+
+  dxf.bends('core', 0, 0, df, 90, 1)
+  x1, y1 = dxf.bends('core', 0, 0, c22, 0, 1)
+  dxf.tline('core', x1, y1, 10)
+
+  dev.saveas('euler')
+
 if __name__ == '__main__':
 
   cfg.draft = 'mask'
@@ -103,4 +123,6 @@ if __name__ == '__main__':
 
   # sbend(27)
   
-  dc_in_out()
+  # dc_in_out()
+
+  pbs()

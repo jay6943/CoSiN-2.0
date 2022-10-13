@@ -101,18 +101,20 @@ def update(r):
 
   for angle in [15, 45, 90, 180, 27, 32, 37, 53, 58, 63]:
     for draft in ['mask', 'draft', 'edge']:
-      i = str(angle) + '_' + draft
+      i = str(r) + '_' + str(angle) + '_' + draft
       fp = cfg.libs + 'euler_' + i + '.npy'
 
       changed = False
       if os.path.isfile(fp):
         df = np.load(fp, allow_pickle=True).item()
         if df['m'] != m: changed = True
-        if df['r'] != r: changed = True
+        # if df['r'] != r: changed = True
         if df['w'] != w[draft]: changed = True
       else: changed = True
       obj[i] = save(fp, r, angle, draft, w, m) if changed else df
 
   return obj
 
-r125 = update(250)
+r20 = update(20)
+r22 = update(22)
+r250 = update(250)
