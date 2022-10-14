@@ -7,7 +7,7 @@ draft = 'draft' # draft: 100, mask: 1000
 
 phase = 90
 
-wg = 0.8
+wg = 0.6
 wt = 1
 eg = 30
 ch = 250
