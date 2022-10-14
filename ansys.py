@@ -96,7 +96,7 @@ def dc_in_out():
 def pbs_euler():
 
   r = 20
-  g = 1.2
+  g = 2.5
 
   cfg.work = 'D:/ansys/PBS/'
   
@@ -115,6 +115,28 @@ def pbs_euler():
 
   dev.saveas('euler')
 
+def pbs_cir():
+
+  r = 10
+  g = 1.2
+
+  cfg.work = 'D:/ansys/PBS/'
+  
+  s1 = cir.update(cfg.wg, r, 0, 90)['0_90_mask']
+  s2 = cir.update(cfg.wg, r + g, 0, 90)['0_90_mask']
+
+  df = cir.r5['0_90_' + cfg.draft]
+
+  dxf.sline('core', 0, g, -10)
+  x1, y1 = dxf.bends('core', 0, g, s1, 270, 1)
+  dxf.tline('core', x1, y1, 10)
+
+  dxf.bends('core', 0, 0, df, 90, 1)
+  x1, y1 = dxf.bends('core', 0, 0, s2, 270, 1)
+  dxf.tline('core', x1, y1, 10)
+
+  dev.saveas('cir')
+
 if __name__ == '__main__':
 
   cfg.draft = 'mask'
@@ -128,4 +150,5 @@ if __name__ == '__main__':
   
   # dc_in_out()
 
-  pbs_euler()
+  # pbs_euler()
+  pbs_cir()
