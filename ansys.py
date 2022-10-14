@@ -96,7 +96,7 @@ def dc_in_out():
 def pbs_euler():
 
   r = 20
-  g = 1
+  g = 1.2
 
   cfg.work = 'D:/ansys/PBS/'
   
