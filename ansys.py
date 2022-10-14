@@ -93,7 +93,7 @@ def dc_in_out():
   dxf.bends('core', 0, 0, df, 270, -1)
   dev.saveas('wg-1w-out')
 
-def pbs():
+def pbs_euler():
 
   r = 20
   g = 1.5
@@ -104,7 +104,6 @@ def pbs():
   s2 = el.update(r + g)[str(r + g) + '_90_mask']
 
   df = cir.r5['0_90_' + cfg.draft]
-
 
   dxf.sline('core', 0, g, -10)
   x1, y1 = dxf.bends('core', 0, g, s1, 0, 1)
@@ -129,4 +128,4 @@ if __name__ == '__main__':
   
   # dc_in_out()
 
-  pbs()
+  pbs_euler()
