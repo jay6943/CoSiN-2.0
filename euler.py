@@ -99,7 +99,7 @@ def update(r):
   w = {'mask':cfg.wg, 'draft':cfg.wg, 'edge':cfg.eg}
   m = {'mask':1000, 'draft':50, 'edge':50}
 
-  for angle in [15, 45, 90, 180, 27, 32, 37, 53, 58, 63]:
+  for angle in [9, 15, 45, 90, 180, 27, 32, 37, 53, 58, 63]:
     for draft in ['mask', 'draft', 'edge']:
       i = str(r) + '_' + str(angle) + '_' + draft
       fp = cfg.libs + 'euler_' + i + '.npy'
@@ -108,7 +108,7 @@ def update(r):
       if os.path.isfile(fp):
         df = np.load(fp, allow_pickle=True).item()
         if df['m'] != m: changed = True
-        # if df['r'] != r: changed = True
+        if df['r'] != r: changed = True
         if df['w'] != w[draft]: changed = True
       else: changed = True
       obj[i] = save(fp, r, angle, draft, w, m) if changed else df

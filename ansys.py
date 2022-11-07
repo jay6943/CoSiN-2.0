@@ -2,7 +2,7 @@ import cfg
 import dxf
 import dev
 import cir
-import euler as el
+import euler as elr
 
 lwg = 10
 
@@ -95,13 +95,13 @@ def dc_in_out():
 
 def pbs_euler():
 
+  cfg.work = 'D:/ansys/PBS/'
+
   r = 20
   g = 2.5
-
-  cfg.work = 'D:/ansys/PBS/'
   
-  s1 = el.update(r)[str(r) + '_90_mask']
-  s2 = el.update(r + g)[str(r + g) + '_90_mask']
+  s1 = elr.update(r)[str(r) + '_90_mask']
+  s2 = elr.update(r + g)[str(r + g) + '_90_mask']
 
   df = cir.r5['0_90_' + cfg.draft]
 
@@ -117,11 +117,11 @@ def pbs_euler():
 
 def pbs_cir():
 
+  cfg.work = 'D:/ansys/PBS/'
+
   r = 10
   g = 1.2
 
-  cfg.work = 'D:/ansys/PBS/'
-  
   s1 = cir.update(cfg.wg, r, 0, 90)['0_90_mask']
   s2 = cir.update(cfg.wg, r + g, 0, 90)['0_90_mask']
 
@@ -137,6 +137,17 @@ def pbs_cir():
 
   dev.saveas('cir')
 
+def soa():
+
+  cfg.work = 'D:/ansys/SiN-LD/'
+
+  s = cir.update(cfg.wg, 4000, 0, 9)['0_9_mask']
+
+  x1, y1 = dxf.sline('core', 0, 0, 10)
+  x1, y1 = dxf.bends('core', x1, y1, s, 270, -1)
+
+  dev.saveas('soa')
+
 if __name__ == '__main__':
 
   cfg.draft = 'mask'
@@ -145,10 +156,9 @@ if __name__ == '__main__':
   # angle_90()
   # angle_180()
   # angle_90x2()
-
   # sbend(27)
-  
   # dc_in_out()
-
   # pbs_euler()
-  pbs_cir()
+  # pbs_cir()
+
+  soa()
