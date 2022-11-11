@@ -141,16 +141,29 @@ def soa(filename):
 
   dev.saveas(filename)
 
+def tap_device(df, dy, sign):
+
+  ch = 5
+  wg = 1.2
+  l = 10
+  t = 20
+
+  x1, y1 = dxf.srect('core', 0, sign * ch, l, wg)
+  x2, y1 = dxf.taper('core', x1, y1, l, wg, cfg.wg)
+  x3, y2 = dxf.sbend('core', x2, y1, sign * (dy - ch), df, 0, 1)
+  x4, y3 = dxf.sline('core', x3, y2, t)
+  x5, y1 = dxf.sbend('core', x4, y3, sign * (ch - dy), df, 0, 1)
+  x6, y1 = dxf.taper('core', x5, y1, l, cfg.wg, wg)
+  x1, y1 = dxf.srect('core', x6, y1, l, wg)
+
 def tap(filename):
 
   r = 10
-  s = elr.update(r)[str(r) + '_27_mask']
+  df = elr.update(r)[str(r) + '_15_mask']
+  dy = 1
 
-  x1, y1 = dxf.sline('core', 0, 0, 10)
-  x2, y2 = dxf.sbend('core', x1, y1, 5, s, 0, 1)
-  x2, y1 = dxf.sline('core', x1, y1, x2 - x1)
-  x1, y1 = dxf.sline('core', x2, y1, 10)
-  x1, y2 = dxf.sline('core', x2, y2, 10)
+  tap_device(df, dy,  1)
+  tap_device(df, dy, -1)
 
   dev.saveas(filename)
 
@@ -163,8 +176,8 @@ if __name__ == '__main__':
   # angle_180('D:/ansys/Euler/180')
   # angle_90x2('D:/ansys/Euler/90x2')
   # sbend('D:/ansys/tap/sbend', 45)
-  dc_in_out('D:/ansys/tap/dc')
+  # dc_in_out('D:/ansys/tap/dc')
   # pbs_euler('D:/ansys/PBS/euler')
   # pbs_cir('D:/ansys/PBS/cir')
   # soa('D:/ansys/LD/soa')
-  # tap('D:/ansys/tap/tap-10')
+  tap('C:/Git/mask/tap')
