@@ -137,4 +137,4 @@ if __name__ == '__main__':
 
   # chips(0, 0, 20, 58, 2)
 
-  dev.saveas('pbs')
+  dev.saveas(cfg.work + 'pbs')

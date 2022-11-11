@@ -102,4 +102,4 @@ if __name__ == '__main__':
 
   chips(0, 0)
 
-  dev.saveas('ohm')
+  dev.saveas(cfg.work + 'ohm')

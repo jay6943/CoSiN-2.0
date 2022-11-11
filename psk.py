@@ -107,4 +107,4 @@ if __name__ == '__main__':
   
   # chips(0, 0, 70, 115, 5)
 
-  dev.saveas('psk')
+  dev.saveas(cfg.work + 'psk')

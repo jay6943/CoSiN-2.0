@@ -84,4 +84,4 @@ if __name__ == '__main__':
 
   chips(0, 0, 0.2, 0.4, 0.05)
 
-  dev.saveas('tip')
+  dev.saveas(cfg.work + 'tip')

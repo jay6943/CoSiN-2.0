@@ -66,7 +66,7 @@ def toolings(x, y):
     xp = (i - 5) * size + x
     dxf.srect('recs', xp, y, size, size)
 
-  dev.saveas('tooling')
+  dev.saveas(cfg.work + 'tooling')
 
 def cuttings(x, y):
 
@@ -85,7 +85,7 @@ def cuttings(x, y):
     dxf.srect('cuts', xp + wbar + 100, y, wcut, rmax * 2)
     dxf.srect('cuts', xp + size - 100, y, wcut, rmax * 2)
 
-  dev.saveas('scribing')
+  dev.saveas(cfg.work + 'scribing')
 
 if __name__ == '__main__':
 

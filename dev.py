@@ -142,4 +142,4 @@ if __name__ == '__main__':
   x, y = sbend(0, 0, cfg.ch * 0.5, cfg.sarg, 0, 1)
   x, y = sbend(x, 0, cfg.ch * 0.5, cfg.sarg, 0, 1)
 
-  saveas('sbend')
+  saveas(cfg.work + 'sbend')

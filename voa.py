@@ -71,4 +71,4 @@ if __name__ == '__main__':
   
   chips(0, 0, 500, 700, 100)
 
-  dev.saveas('voa')
+  dev.saveas(cfg.work + 'voa')
