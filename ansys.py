@@ -6,9 +6,9 @@ import euler as elr
 
 lwg = 10
 
-def angle_45():
+def angle_45(folder):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
   
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.sbend(x, y, 0, 45, 0, 1)
@@ -16,9 +16,9 @@ def angle_45():
 
   dev.saveas('45')
 
-def angle_45_taper():
+def angle_45_taper(folder):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
   
   x, y = dev.srect(0, 0, lwg, cfg.wt)
   x, y = dev.taper(x, y, cfg.ltpr, cfg.wt, cfg.wg)
@@ -28,9 +28,9 @@ def angle_45_taper():
 
   dev.saveas('45-taper')
 
-def angle_90():
+def angle_90(folder):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
 
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.bends(x, y, 90, 0, 1)
@@ -38,9 +38,9 @@ def angle_90():
 
   dev.saveas('90')
 
-def angle_180():
+def angle_180(folder):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
 
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.bends(x, y, 180, 0, 1)
@@ -48,9 +48,9 @@ def angle_180():
 
   dev.saveas('180')
 
-def angle_180_taper():
+def angle_180_taper(folder):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
 
   x, y = dev.srect(0, 0, lwg, cfg.wt)
   x, y = dev.taper(x, y, cfg.ltpr, cfg.wt, cfg.wg)
@@ -60,9 +60,9 @@ def angle_180_taper():
 
   dev.saveas('180-taper')
 
-def angle_90x2():
+def angle_90x2(folder):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
   
   x, y = dev.sline(0, 0, lwg)
   x, y = dev.bends(x, y, 90, 0, 1)
@@ -72,30 +72,45 @@ def angle_90x2():
 
   dev.saveas('90x2')
 
-def sbend(angle):
+def sbend(folder, angle):
 
-  cfg.work = 'D:/ansys/Euler/'
+  cfg.work = folder
 
-  x, y = dev.sline(0, 0, lwg)
-  x, y = dev.sbend(x, y, cfg.ch * 0.5, angle, 0, 1)
-  x, y = dev.sline(x, y, lwg)
+  r = 50
+  s = elr.update(r)[str(r) + '_' + angle + '_mask']
+
+  x, y = dxf.sline('core', 0, 0, lwg)
+  x, y = dxf.sbend('core', x, y, 50, s, angle, 1)
+  x, y = dxf.sline('core', x, y, lwg)
 
   dev.saveas('sbend')
 
-def dc_in_out():
+def dc_in_out(folder):
 
-  cfg.work = 'D:/ansys/DC/'
+  cfg.work = folder
 
   df = cir.r5['0_90_' + cfg.draft]
 
   dxf.bends('core', 0, 0, df, 90, 1)
-  dev.saveas('wg-1w-in')
-  dxf.bends('core', 0, 0, df, 270, -1)
-  dev.saveas('wg-1w-out')
+  dev.saveas('wg-1.2w-in')
 
-def pbs_euler():
+  dxf.bends('core', 0, 0, df, 270, 1)
+  dev.saveas('wg-1.2w-out')
 
-  cfg.work = 'D:/ansys/PBS/'
+  r = 50
+  s = elr.update(r)[str(r) + '_3_mask']
+
+  x, y = dxf.sbend('core', 0, 0, 1, s, 0, 1)
+  x, y = dxf.sline('core', x, y, 50)
+  dev.saveas('sbend-out-1')
+
+  x, y = dxf.sbend('core', 0, 0, 1, s, 0, -1)
+  x, y = dxf.sline('core', x, y, 50)
+  dev.saveas('sbend-out-2')
+
+def pbs_euler(folder):
+
+  cfg.work = folder
 
   r = 20
   g = 2.5
@@ -115,9 +130,9 @@ def pbs_euler():
 
   dev.saveas('euler')
 
-def pbs_cir():
+def pbs_cir(folder):
 
-  cfg.work = 'D:/ansys/PBS/'
+  cfg.work = folder
 
   r = 10
   g = 1.2
@@ -137,9 +152,9 @@ def pbs_cir():
 
   dev.saveas('cir')
 
-def soa():
+def soa(folder):
 
-  cfg.work = 'D:/ansys/SiN-LD/'
+  cfg.work = folder
 
   s = cir.update(cfg.wg, 4000, 0, 9)['0_9_mask']
 
@@ -152,13 +167,13 @@ if __name__ == '__main__':
 
   cfg.draft = 'mask'
 
-  # angle_45()
-  # angle_90()
-  # angle_180()
-  # angle_90x2()
-  # sbend(27)
-  # dc_in_out()
-  # pbs_euler()
-  # pbs_cir()
+  # angle_45('D:/ansys/Euler/')
+  # angle_90('D:/ansys/Euler/')
+  # angle_180('D:/ansys/Euler/')
+  # angle_90x2('D:/ansys/Euler/')
+  # sbend('D:/ansys/tap/', 45)
+  dc_in_out('D:/ansys/tap/')
+  # pbs_euler('D:/ansys/PBS/')
+  # pbs_cir('D:/ansys/PBS/')
 
-  soa()
+  # soa('D:/ansys/LD/')
