@@ -76,21 +76,21 @@ def dc_in_out(filename):
   df = cir.r5['0_90_' + cfg.draft]
 
   dxf.bends('core', 0, 0, df, 90, 1)
-  dev.saveas(filename + '-1.2w-in')
+  dev.saveas(filename + '-in')
 
   dxf.bends('core', 0, 0, df, 270, 1)
-  dev.saveas(filename + '-1.2w-out')
+  dev.saveas(filename + '-out')
 
-  r = 50
-  s = elr.update(r)[str(r) + '_3_mask']
+  r = 20
+  s = elr.update(r)[str(r) + '_5_mask']
 
   x, y = dxf.sbend('core', 0, 0, 1, s, 0, 1)
-  x, y = dxf.sline('core', x, y, 50)
-  dev.saveas(filename, 'sbend-out-1')
+  x, y = dxf.sline('core', x, y, 10)
+  dev.saveas(filename + '-1')
 
   x, y = dxf.sbend('core', 0, 0, 1, s, 0, -1)
-  x, y = dxf.sline('core', x, y, 50)
-  dev.saveas(filename, 'sbend-out-2')
+  x, y = dxf.sline('core', x, y, 10)
+  dev.saveas(filename + '-2')
 
 def pbs_euler(filename):
 
@@ -143,8 +143,8 @@ def soa(filename):
 
 def tap(filename):
 
-  r = 50
-  s = elr.update(r)[str(r) + '_9_mask']
+  r = 10
+  s = elr.update(r)[str(r) + '_27_mask']
 
   x1, y1 = dxf.sline('core', 0, 0, 10)
   x2, y2 = dxf.sbend('core', x1, y1, 5, s, 0, 1)
@@ -163,8 +163,8 @@ if __name__ == '__main__':
   # angle_180('D:/ansys/Euler/180')
   # angle_90x2('D:/ansys/Euler/90x2')
   # sbend('D:/ansys/tap/sbend', 45)
-  # dc_in_out('D:/ansys/tap/dc')
+  dc_in_out('D:/ansys/tap/dc')
   # pbs_euler('D:/ansys/PBS/euler')
   # pbs_cir('D:/ansys/PBS/cir')
   # soa('D:/ansys/LD/soa')
-  tap('D:/ansys/tap/tap9')
+  # tap('D:/ansys/tap/tap-10')

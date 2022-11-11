@@ -99,7 +99,7 @@ def update(r):
   w = {'mask':cfg.wg, 'draft':cfg.wg, 'edge':cfg.eg}
   m = {'mask':1000, 'draft':50, 'edge':50}
 
-  for angle in [3, 5, 9, 15, 45, 90, 180, 27, 32, 37, 53, 58, 63]:
+  for angle in [3, 5, 9, 15, 30, 45, 90, 180, 27, 32, 37, 53, 58, 63]:
     for draft in ['mask', 'draft', 'edge']:
       i = str(r) + '_' + str(angle) + '_' + draft
       fp = cfg.libs + 'euler_' + i + '.npy'
