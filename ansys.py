@@ -1,3 +1,4 @@
+import pya
 import cfg
 import dxf
 import dev
@@ -141,7 +142,7 @@ def soa(filename):
 
   dev.saveas(filename)
 
-def tap_device(df, dy, sign):
+def tap_device(df, sign):
 
   ch = 5
   wg = 1.2
@@ -150,9 +151,9 @@ def tap_device(df, dy, sign):
 
   x1, y1 = dxf.srect('core', 0, sign * ch, l, wg)
   x2, y1 = dxf.taper('core', x1, y1, l, wg, cfg.wg)
-  x3, y2 = dxf.sbend('core', x2, y1, sign * (dy - ch), df, 0, 1)
+  x3, y2 = dxf.sbend('core', x2, y1, -sign * ch, df, 0, 1)
   x4, y3 = dxf.sline('core', x3, y2, t)
-  x5, y1 = dxf.sbend('core', x4, y3, sign * (ch - dy), df, 0, 1)
+  x5, y1 = dxf.sbend('core', x4, y3, sign * ch, df, 0, 1)
   x6, y1 = dxf.taper('core', x5, y1, l, cfg.wg, wg)
   x1, y1 = dxf.srect('core', x6, y1, l, wg)
 
@@ -160,12 +161,12 @@ def tap(filename):
 
   r = 10
   df = elr.update(r)[str(r) + '_15_mask']
-  dy = 1
 
-  tap_device(df, dy,  1)
-  tap_device(df, dy, -1)
+  tap_device(df, 1)
+  dev.saveas(filename + '-1')
 
-  dev.saveas(filename)
+  tap_device(df, -1)
+  dev.saveas(filename + '-2')
 
 if __name__ == '__main__':
 
