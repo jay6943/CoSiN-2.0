@@ -61,20 +61,19 @@ def angle_90x2(filename):
 
   dev.saveas(filename)
 
-def sbend(filename, angle):
+def sbend(filename, radius, angle):
 
-  r = 50
-  s = elr.update(r)[str(r) + '_' + angle + '_mask']
+  df = elr.update(cfg.wg, radius, angle, 'mask')
 
   x, y = dxf.sline('core', 0, 0, lwg)
-  x, y = dxf.sbend('core', x, y, 50, s, angle, 1)
+  x, y = dxf.sbend('core', x, y, 50, df, angle, 1)
   x, y = dxf.sline('core', x, y, lwg)
 
   dev.saveas(filename)
 
 def dc_in_out(filename):
 
-  df = cir.r5['0_90_' + cfg.draft]
+  df = cir.update(cfg.wg, 20, 90, 'mask')
 
   dxf.bends('core', 0, 0, df, 90, 1)
   dev.saveas(filename + '-in')
@@ -82,91 +81,63 @@ def dc_in_out(filename):
   dxf.bends('core', 0, 0, df, 270, 1)
   dev.saveas(filename + '-out')
 
-  r = 20
-  s = elr.update(r)[str(r) + '_5_mask']
+  df = elr.update(cfg.wg, 20, 5, 'mask')
 
-  x, y = dxf.sbend('core', 0, 0, 1, s, 0, 1)
+  x, y = dxf.sbend('core', 0, 0, 1, df, 0, 1)
   x, y = dxf.sline('core', x, y, 10)
   dev.saveas(filename + '-1')
 
-  x, y = dxf.sbend('core', 0, 0, 1, s, 0, -1)
+  x, y = dxf.sbend('core', 0, 0, 1, df, 0, -1)
   x, y = dxf.sline('core', x, y, 10)
   dev.saveas(filename + '-2')
-
-def pbs_euler(filename):
-
-  r = 20
-  g = 2.5
-  
-  s1 = elr.update(r)[str(r) + '_90_mask']
-  s2 = elr.update(r + g)[str(r + g) + '_90_mask']
-
-  df = cir.r5['0_90_' + cfg.draft]
-
-  dxf.sline('core', 0, g, -10)
-  x, y = dxf.bends('core', 0, g, s1, 0, 1)
-  dxf.tline('core', x, y, 10)
-
-  dxf.bends('core', 0, 0, df, 90, 1)
-  x, y = dxf.bends('core', 0, 0, s2, 0, 1)
-  dxf.tline('core', x, y, 10)
-
-  dev.saveas(filename)
-
-def pbs_cir(filename):
-
-  r = 10
-  g = 1.2
-
-  s1 = cir.update(cfg.wg, r, 0, 90)['0_90_mask']
-  s2 = cir.update(cfg.wg, r + g, 0, 90)['0_90_mask']
-
-  df = cir.r5['0_90_' + cfg.draft]
-
-  dxf.sline('core', 0, g, -10)
-  x, y = dxf.bends('core', 0, g, s1, 270, 1)
-  dxf.tline('core', x, y, 10)
-
-  dxf.bends('core', 0, 0, df, 90, 1)
-  x, y = dxf.bends('core', 0, 0, s2, 270, 1)
-  dxf.tline('core', x, y, 10)
-
-  dev.saveas(filename)
 
 def soa(filename):
 
-  s = cir.update(cfg.wg, 4000, 0, 9)['0_9_mask']
+  df = cir.update(cfg.wg, 4000, 0, 9)['0_9_mask']
 
   x, y = dxf.sline('core', 0, 0, 10)
-  x, y = dxf.bends('core', x, y, s, 270, -1)
+  x, y = dxf.bends('core', x, y, df, 270, -1)
 
   dev.saveas(filename)
 
-def tap_device(df, sign):
+def tap_device(x, y, df, sign):
 
   ch = 5
-  wg = 1.2
+  wg = 0.4
   l = 10
   t = 20
 
-  x1, y1 = dxf.srect('core', 0, sign * ch, l, wg)
-  x2, y1 = dxf.taper('core', x1, y1, l, wg, cfg.wg)
+  x1, y1 = dxf.srect('core', x, y, l, cfg.wg)
+  x2, y1 = dxf.taper('core', x1, y1, l, cfg.wg, wg)
   x3, y2 = dxf.sbend('core', x2, y1, -sign * ch, df, 0, 1)
-  x4, y3 = dxf.sline('core', x3, y2, t)
+  x4, y3 = dxf.srect('core', x3, y2, t, wg)
   x5, y1 = dxf.sbend('core', x4, y3, sign * ch, df, 0, 1)
-  x6, y1 = dxf.taper('core', x5, y1, l, cfg.wg, wg)
-  x1, y1 = dxf.srect('core', x6, y1, l, wg)
+  x6, y1 = dxf.taper('core', x5, y1, l, wg, cfg.wg)
+  x1, y1 = dxf.srect('core', x6, y1, l, cfg.wg)
 
 def tap(filename):
 
-  r = 10
-  df = elr.update(r)[str(r) + '_15_mask']
+  df = elr.update(cfg.wg, 10, 15, 'mask')
 
-  tap_device(df, 1)
+  tap_device(0, 0, df, 1)
   dev.saveas(filename + '-1')
 
-  tap_device(df, -1)
+  tap_device(0, 0, df, -1)
   dev.saveas(filename + '-2')
+
+def y2x2(filename):
+
+  ch = cfg.ch * 0.5
+  dy = 6
+
+  s1 = elr.update(cfg.wg, 125, 45, 'mask')
+  s2 = elr.update(0.4, 10, 15, 'mask')
+
+  x1, y1 = dxf.sbend('core', 0,  ch, dy - ch, s1, 0, 1)
+  x1, y2 = dxf.sbend('core', 0, -ch, ch - dy, s1, 0, 1)
+  tap_device(x1, y1, s2,  1)
+  tap_device(x1, y2, s2, -1)
+  dev.saveas(filename)
 
 if __name__ == '__main__':
 
@@ -177,8 +148,9 @@ if __name__ == '__main__':
   # angle_180('D:/ansys/Euler/180')
   # angle_90x2('D:/ansys/Euler/90x2')
   # sbend('D:/ansys/tap/sbend', 45)
-  # dc_in_out('D:/ansys/tap/dc')
+  # dc_in_out('C:/Git/mask/v2.0/dc')
   # pbs_euler('D:/ansys/PBS/euler')
   # pbs_cir('D:/ansys/PBS/cir')
   # soa('D:/ansys/LD/soa')
-  tap('C:/Git/mask/tap')
+  # tap('C:/Git/mask/v2.0/tap')
+  y2x2('C:/Git/mask/v2.0/2x2')

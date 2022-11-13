@@ -1,7 +1,7 @@
 import cfg
 import dev
 import tip
-import euler
+import euler as elr
 
 xsize = cfg.size
 ysize = cfg.ch * 2
@@ -30,7 +30,9 @@ def device(x, y, angle):
 
   if angle == 180:
 
-    l = euler.r125['180_' + cfg.draft]['r'] + 80
+    # l = elr.device['180_' + cfg.draft]['r'] + 80
+    s = elr.update(cfg.wg, cfg.radius, 180, cfg.draft)
+    l = s['r'] + 80
 
     for _ in range(10):
       x1, y1 = dev.sline(x, y, l)
@@ -79,8 +81,7 @@ def chip(x, y, lchip, angle):
   x5, t2 = tip.fiber(x4, y2, ltip,  1)
   
   if angle > 2:
-    a = str(angle)
-    r = str(euler.r125[a + '_' + cfg.draft]['r']) + 'r-' + a
+    r = str(cfg.radius) + 'r-' + str(angle)
     dev.texts(t1, y - cfg.ch * 0.5, r, 0.5, 'lc')
     dev.texts(t2, y - cfg.ch * 0.5, r, 0.5, 'rc')
     print(r, int(x5 - x))

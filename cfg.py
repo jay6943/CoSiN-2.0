@@ -7,10 +7,12 @@ draft = 'draft' # draft: 100, mask: 1000
 
 phase = 90
 
-wg = 0.4
+wg = 1.2
 wt = 1
 eg = 30
 ch = 250
+
+radius = 125
 
 sarg = 27
 w1x2 = 5.6 * 2

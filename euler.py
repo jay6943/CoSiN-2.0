@@ -4,7 +4,7 @@ import dxf
 import numpy as np
 import scipy.special as ss
 
-def curve(wg, r, angle, m):
+def curve(wg, radius, angle, m):
 
   width = wg * 0.5
   
@@ -15,15 +15,15 @@ def curve(wg, r, angle, m):
   
   xt, yt = ss.fresnel(t)
   
-  x = yt * c * r
-  y = xt * c * r
+  x = yt * c * radius
+  y = xt * c * radius
 
   p = t * c
 
   px = np.sin(p * p)
   py = np.cos(p * p)
 
-  rc = np.array([0] + (r / p[1:] * 0.5).tolist())
+  rc = np.array([0] + (radius / p[1:] * 0.5).tolist())
   dx = x - rc * px
   dy = y + rc * py
 
@@ -65,10 +65,10 @@ def rotate(df, oxt, rxt):
 
   return xp, yp
 
-def save(fp, r, angle, draft, wg, m):
+def save(fp, wg, radius, angle, m):
   
   rxt = dxf.rxt(angle)
-  obj = curve(wg[draft], r, angle, m[draft])
+  obj = curve(wg, radius, angle, m)
   oxt = rxt @ np.array([-obj['dx'], obj['dy']]).reshape(2,1)
 
   xp, yp = rotate(obj, oxt, rxt)
@@ -80,39 +80,31 @@ def save(fp, r, angle, draft, wg, m):
   df['m'] = m
   df['x'] = xp
   df['y'] = yp
-  df['r'] = r
-  df['w'] = wg[draft]
+  df['r'] = radius
+  df['w'] = wg
   df['dx'] = (xp[n-1] + xp[n]) * 0.5
   df['dy'] = (yp[n-1] + yp[n]) * 0.5
   df['angle'] = angle
 
   np.save(fp, df)
 
-  print('euler', angle, draft)
+  print('euler', angle, m)
 
   return df
+  
+def update(wg, radius, angle, draft):
 
-def update(r):
+  m = 50 if draft != 'mask' else 1000
+  w = wg if draft != 'edge' else cfg.eg
 
-  obj = {}
+  ip = str(radius) + '_' + str(angle) + '_' + draft
+  fp = cfg.libs + 'euler_' + ip + '.npy'
 
-  w = {'mask':cfg.wg, 'draft':cfg.wg, 'edge':cfg.eg}
-  m = {'mask':1000, 'draft':50, 'edge':50}
-
-  for angle in [3, 5, 9, 15, 30, 45, 90, 180, 27, 32, 37, 53, 58, 63]:
-    for draft in ['mask', 'draft', 'edge']:
-      i = str(r) + '_' + str(angle) + '_' + draft
-      fp = cfg.libs + 'euler_' + i + '.npy'
-
-      changed = False
-      if os.path.isfile(fp):
-        df = np.load(fp, allow_pickle=True).item()
-        if df['m'] != m: changed = True
-        if df['r'] != r: changed = True
-        if df['w'] != w[draft]: changed = True
-      else: changed = True
-      obj[i] = save(fp, r, angle, draft, w, m) if changed else df
-
-  return obj
-
-r250 = update(250)
+  changed = False
+  if os.path.isfile(fp):
+    df = np.load(fp, allow_pickle=True).item()
+    if df['m'] != m: changed = True
+    if df['w'] != w: changed = True
+  else: changed = True
+  
+  return save(fp, w, radius, angle, m) if changed else df

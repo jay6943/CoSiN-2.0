@@ -2,7 +2,7 @@ import os
 import cfg
 import dxf
 import tip
-import euler as el
+import euler as elr
 import numpy as np
 
 def srect(x, y, length, width):
@@ -47,8 +47,8 @@ def taper(x, y, length, wstart, wstop):
 
 def bends(x, y, angle, rotate, sign):
 
-  core = el.r250[str(angle) + '_' + cfg.draft]
-  edge = el.r250[str(angle) + '_' + 'edge']
+  core = elr.update(cfg.wg, cfg.radius, angle, cfg.draft)
+  edge = elr.update(cfg.wg, cfg.radius, angle, 'edge')
 
   x1, y1 = dxf.bends('edge', x, y, edge, rotate, sign)
   x1, y1 = dxf.bends('core', x, y, core, rotate, sign)
@@ -57,8 +57,8 @@ def bends(x, y, angle, rotate, sign):
 
 def sbend(x, y, offset, angle, rotate, shape):
 
-  core = el.r250[str(angle) + '_' + cfg.draft]
-  edge = el.r250[str(angle) + '_' + 'edge']
+  core = elr.update(cfg.wg, cfg.radius, angle, cfg.draft)
+  edge = elr.update(cfg.wg, cfg.radius, angle, 'edge')
 
   x1, y1 = dxf.sbend('edge', x, y, offset, edge, rotate, shape)
   x1, y1 = dxf.sbend('core', x, y, offset, core, rotate, shape)

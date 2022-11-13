@@ -16,7 +16,7 @@ def device(x, y, ltap, sign):
   x4, y4 = dxf.move(idev, x1, y, x3, y3, 0, 0, sign * 32)
   
   idev = len(cfg.data)
-  x5, y5 = dev.bends(x4, y4, 58, 90, -1)
+  x5, y5 = dev.bends(x4, y4, 45, 90, -1)
   x6, y6 = dxf.move(idev, x4, y4, x5, y5, 0, 0, 58)
 
   ltip = ltap + sign * (y - y6)
@@ -73,7 +73,7 @@ def chip(x, y, lchip, angle):
 
 def chips(x, y):
 
-  for angle in [27, 32, 37]:
+  for angle in [27, 45, 45]:
     _, y = chip(x, y + ysize, xsize, angle)
 
   return x + xsize, y
