@@ -110,10 +110,12 @@ def tap_device(x, y, df, sign):
   x1, y1 = dxf.srect('core', x, y, l, cfg.wg)
   x2, y1 = dxf.taper('core', x1, y1, l, cfg.wg, wg)
   x3, y2 = dxf.sbend('core', x2, y1, -sign * ch, df, 0, 1)
-  x4, y3 = dxf.srect('core', x3, y2, t, wg)
-  x5, y1 = dxf.sbend('core', x4, y3, sign * ch, df, 0, 1)
+  x4, y2 = dxf.srect('core', x3, y2, t, wg)
+  x5, y1 = dxf.sbend('core', x4, y2, sign * ch, df, 0, 1)
   x6, y1 = dxf.taper('core', x5, y1, l, wg, cfg.wg)
-  x1, y1 = dxf.srect('core', x6, y1, l, cfg.wg)
+  x7, y1 = dxf.srect('core', x6, y1, l, cfg.wg)
+
+  return x7, y1
 
 def tap(filename):
 
@@ -133,10 +135,12 @@ def y2x2(filename):
   s1 = elr.update(cfg.wg, 125, 45, 'mask')
   s2 = elr.update(0.4, 10, 15, 'mask')
 
-  x1, y1 = dxf.sbend('core', 0,  ch, dy - ch, s1, 0, 1)
-  x1, y2 = dxf.sbend('core', 0, -ch, ch - dy, s1, 0, 1)
-  tap_device(x1, y1, s2,  1)
-  tap_device(x1, y2, s2, -1)
+  x1, y1 = dxf.sbend('core', 0,  ch, ch - dy, s1, 0, -1)
+  x1, y2 = dxf.sbend('core', 0, -ch, ch - dy, s1, 0,  1)
+  x2, y1 = tap_device(x1, y1, s2,  1)
+  x2, y2 = tap_device(x1, y2, s2, -1)
+  x3, y3 = dxf.sbend('core', x2, y1, ch - dy, s1, 0,  1)
+  x3, y4 = dxf.sbend('core', x2, y2, ch - dy, s1, 0, -1)
   dev.saveas(filename)
 
 if __name__ == '__main__':
