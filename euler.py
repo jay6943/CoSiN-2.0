@@ -88,7 +88,7 @@ def save(fp, wg, radius, angle, m):
 
   np.save(fp, df)
 
-  print('euler', angle, m)
+  print('euler', wg, radius, angle, m)
 
   return df
   
