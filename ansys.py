@@ -109,7 +109,7 @@ def tap_device(x, y, df, sign):
 
 def tap(filename):
 
-  wg = 0.4
+  wg = 0.38
   ch = 1
   df = elr.update(wg, 50, 3, 'mask')
   cf = cir.update(wg, 5, 90, 'mask')
