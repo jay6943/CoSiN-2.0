@@ -1,5 +1,5 @@
-work = '../mask/v2.0/'
-libs = '../mask/v2.0/lib/'
+work = '../mask/'
+libs = '../mask/lib/'
 
 data = []
 
@@ -7,12 +7,12 @@ draft = 'draft' # draft: 100, mask: 1000
 
 phase = 90
 
-wg = 1.2
+wg = 2
 wt = 1
 eg = 30
 ch = 250
 
-radius = 125
+radius = 100
 
 sarg = 27
 w1x2 = 5.6 * 2

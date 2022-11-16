@@ -3,6 +3,7 @@ import dxf
 import dev
 import cir
 import euler as elr
+import numpy as np
 
 lwg = 10
 
@@ -90,29 +91,39 @@ def dc(filename):
   x, y = dxf.sline('core', x, y, 10)
   dev.saveas(filename + '-2')
 
-def tap_device(x, y, df, sign):
+def tap_device(x, y, sign):
 
-  ch = 2
-  wg = 0.4
-  l = 10
-  t = 2
+  wg = 0.38
+  ch =  cfg.ch * 0.5
 
-  x1, y1 = dxf.srect('core', x, y, l, cfg.wg)
-  x2, y1 = dxf.taper('core', x1, y1, l*2, cfg.wg, wg)
-  x3, y2 = dxf.sbend('core', x2, y1, -sign * ch, df, 0, 1)
-  x4, y2 = dxf.srect('core', x3, y2, t, wg)
-  x5, y1 = dxf.sbend('core', x4, y2, sign * ch, df, 0, 1)
-  x6, y1 = dxf.taper('core', x5, y1, l*2, wg, cfg.wg)
-  x7, y1 = dxf.srect('core', x6, y1, l, cfg.wg)
+  s1 = elr.update(wg, 50, 3, 'mask')
+  s2 = elr.update(cfg.wg, 125, 42, 'mask')
+  s3 = elr.update(cfg.wg, 125, 45, 'mask')
 
-  return x7, y1
+  x1, y1 = dxf.bends('core', x, y, s1, 0, sign)
+
+  idev = len(cfg.data)
+  x2, y2 = dxf.taper('core', x1, y1, 20, wg, cfg.wg)
+  x3, y3 = dxf.move(idev, x1, y1, x2, y2, 0, 0, sign * 3)
+
+  x4, y4 = dxf.bends('core', x3, y3, s2, 3, sign)
+
+  l = np.sqrt(2) * (y + sign * (ch - s3['dy']) - y4)
+
+  idev = len(cfg.data)
+  x5, y5 = dxf.sline('core', x4, y4, l)
+  x6, y6 = dxf.move(idev, x4, y4, x5, y5, 0, 0, sign * 45)
+  
+  x7, y7 = dxf.bends('core', x6, y6, s3, 315, -sign)
+
+  return x7, y7
 
 def tap(filename):
 
   wg = 0.38
   ch = 1
-  df = elr.update(wg, 50, 3, 'mask')
   cf = cir.update(wg, 5, 90, 'mask')
+  df = elr.update(wg, 50, 3, 'mask')
 
   dxf.sbend('core', 0, 0, -ch, df, 0, 1)
   dev.saveas(filename + '-1')
@@ -123,24 +134,43 @@ def tap(filename):
   dxf.bends('core', 0, 0, cf, 90, 1)
   dev.saveas(filename + '-3')
 
+def y2x2_arm(x, y, wg, df, sign):
+
+  l, h = 19, 1
+
+  x1, y1 = dxf.taper('core', x, y, 20, cfg.wg, wg)
+  x2, y2 = dxf.sbend('core', x1, y1, -h, df, 0, sign)
+  x3, y3 = dxf.srect('core', x2, y2, l, wg)
+  x4, y4 = dxf.sbend('core', x3, y3,  h, df, 0, sign)
+  x5, y5 = dxf.taper('core', x4, y4, 20, wg, cfg.wg)
+
+  return x5, y5
+
 def y2x2(filename):
 
-  ch = cfg.ch * 0.5
-  dy = 6
+  wg = 0.38
+  dy = 2
+  df = elr.update(wg, 50, 3, 'mask')
 
-  s1 = elr.update(cfg.wg, 125, 45, 'mask')
-  s2 = elr.update(0.4, 10, 15, 'mask')
-
-  x1, y1 = dxf.sbend('core', 0,  ch, ch - dy, s1, 0, -1)
-  x1, y2 = dxf.sbend('core', 0, -ch, ch - dy, s1, 0,  1)
-  x2, y1 = tap_device(x1, y1, s2,  1)
-  x2, y2 = tap_device(x1, y2, s2, -1)
-  x3, y3 = dxf.sbend('core', x2, y1, ch - dy, s1, 0,  1)
-  x3, y4 = dxf.sbend('core', x2, y2, ch - dy, s1, 0, -1)
+  y2x2_arm(0,  dy, wg, df,  1)
+  y2x2_arm(0, -dy, wg, df, -1)
 
   dev.saveas(filename)
 
-  return x3, y3, y4
+def soa(filename):
+
+  wg = 0.8
+  df = elr.update(cfg.wg, 100, 7, 'mask')
+
+  x1, y1 = dev.sline(-5, 0, 10)
+  x2, y2 = dev.bends(x1, y1, 7, 0, 1)
+
+  idev = len(cfg.data)
+  x3, y3 = dev.taper(x2, y2, 200, cfg.wg, wg)
+  x4, y4 = dev.srect(x3, y3, 10, wg)
+  dxf.move(idev, x2, y2, x4, y4, 0, 0, 7)
+
+  dev.saveas(filename)
 
 if __name__ == '__main__':
 
@@ -151,7 +181,8 @@ if __name__ == '__main__':
   # angle_180('D:/ansys/Euler/180')
   # angle_90x2('D:/ansys/Euler/90x2')
   # sbend('D:/ansys/tap/sbend', 45)
-  # dc('D:/Git/mask/v2.0/dc')
+  # dc('D:/Git/mask/dc')
   # soa('D:/ansys/LD/soa')
-  tap('D:/ansys/DC/sym')
-  # y2x2('D:/Git/mask/v2.0/2x2')
+  # tap('D:/ansys/coupler/sym')
+  # y2x2('D:/Git/mask/2x2')
+  soa('D:/ansys/SOA/soa')
