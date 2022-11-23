@@ -35,9 +35,18 @@ def angle_90(filename):
 
 def angle_180(filename):
 
-  x, y = dev.sline(0, 0, lwg)
-  x, y = dev.bends(x, y, 180, 0, 1)
-  x, y = dev.sline(x, y, -lwg)
+  w1 = 0.3
+  w2 = 6
+
+  s1 = elr.update(w1, 100, 180, 'mask')
+  s2 = elr.update(w2, 100, 180, 'mask')
+
+  x1, y1 = dxf.srect('core', 0, 0, lwg, w1)
+  x1, y1 = dxf.srect('clad', 0, 0, lwg, w2)
+  x2, y2 = dxf.bends('core', x1, y1, s1, 0, 1)
+  x2, y2 = dxf.bends('clad', x1, y1, s2, 0, 1)
+  x3, y3 = dxf.srect('core', x2, y2, -lwg, w1)
+  x3, y3 = dxf.srect('clad', x2, y2, -lwg, w2)
 
   dev.saveas(filename)
 
@@ -178,11 +187,11 @@ if __name__ == '__main__':
 
   # angle_45('D:/ansys/Euler/45')
   # angle_90('D:/ansys/Euler/90')
-  # angle_180('D:/ansys/Euler/180')
+  angle_180('D:/ansys/SiN-in-SiO/180')
   # angle_90x2('D:/ansys/Euler/90x2')
   # sbend('D:/ansys/tap/sbend', 45)
   # dc('D:/Git/mask/dc')
   # soa('D:/ansys/LD/soa')
   # tap('D:/ansys/coupler/sym')
   # y2x2('D:/Git/mask/2x2')
-  soa('D:/ansys/SOA/soa')
+  # soa('D:/ansys/SOA/soa')
