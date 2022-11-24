@@ -52,8 +52,6 @@ def close(fp):
 
 def conversion(fp):
 
-  i = 0
-
   for device in cfg.data:
 
     layer = device[0]
@@ -71,8 +69,6 @@ def conversion(fp):
         seqend(fp, layer)
     
     else: print('There is NO layer ----', layer, '----')
-
-    i += 1
 
   cfg.data.clear()
 
