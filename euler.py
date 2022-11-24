@@ -91,7 +91,7 @@ def save(fp, wg, radius, angle, m):
   print('euler', wg, radius, angle, m)
 
   return df
-  
+
 def update(wg, radius, angle, draft):
 
   m = 50 if draft != 'mask' else 1000

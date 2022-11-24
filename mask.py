@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
   cfg.draft = 'draft' # draft or mask
 
-  fp = dxf.start(cfg.draft)
+  fp = dxf.start(cfg.work + cfg.draft)
   key.cross(0, 0)
   dxf.conversion(fp)
 
